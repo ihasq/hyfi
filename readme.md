@@ -1,6 +1,6 @@
 # Hyfi
 Hyfi is a utility for building and manipulating HTML documents from JavaScript.\
-less overhead, safe, transparent, built on top of standard HTML references.
+less boilerplate, zero dependency, built on top of standard HTML references.
 
 ```javascript
 import { html } from "hyfi";
@@ -28,7 +28,6 @@ document.body.append(html.createElement(Count));
 customElements.define("something-reactive", html.createClass(Count));
 ```
 
-
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
 
 ### installation (npm)
@@ -47,9 +46,10 @@ npm run build
 ```javascript
 import { html, css } from "hyfi";
 
-const Counter = $ => {
+const Counter = () => {
 
-    let count = 0, addCount = () => count++;
+    let count = 0,
+        addCount = () => count++;
 
     return () => html`
         <button onclick=${addCount} count=${count}> <!-- go public as top-level attributes -->
@@ -79,7 +79,7 @@ document.body = html.createElement($ => () => html`
 const TodoList = $ => {
 
     let todo = [],
-        addTodo = () => todo.push($`input[type=text]`.value);
+        addTodo = () => todo.push($`input[type="text"]`.value);
     // ☝ same as todo.push(Number($.element.querySelector('input[type=text]').getAttribute('value'))) 🥵🥵🥵
 
     return () => html`
@@ -89,6 +89,22 @@ const TodoList = $ => {
             `)}</ul>
             <input type=text/>
             <input type=button onclick=${addTodo}/>
+        </div>
+    `;
+}
+```
+#### reserve document
+```javascript
+const Canvas2dDrawer = $ => {
+
+    const canvas = $`canvas`.element;
+    // runs document.createElement('canvas') when before rendering
+    const c2d = canvas.getContext("2d");
+    // ...
+
+    return () => html`
+        <div>
+            <canvas></canvas> <!-- will appended -->
         </div>
     `;
 }

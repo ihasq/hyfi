@@ -59,7 +59,7 @@ html.createElement = function(entryPoint) {
 
 };
 
-html.define = function(config) {
+html.createClass = function(config) {
 	
 }
 
